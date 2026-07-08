@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMAJHOL — Moroccan Oversized Essentials</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <div class="preloader-logo">LMAJHOL</div>
+            <div class="preloader-bar"><div class="preloader-fill"></div></div>
+            <div class="preloader-text">Loading Experience</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">LMAJHOL</a>
+            <div class="nav-links">
+                <a href="#collection" class="nav-link">Collection</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#order" class="nav-link">Order</a>
+            </div>
+            <div class="nav-right">
+                <span class="nav-tagline">Casablanca, Morocco</span>
+                <button class="nav-menu-btn" id="menuBtn">
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu">
+        <div class="mobile-menu-links">
+            <a href="#collection" class="mobile-link">Collection</a>
+            <a href="#about" class="mobile-link">About</a>
+            <a href="#order" class="mobile-link">Order</a>
+        </div>
+        <div class="mobile-menu-footer">
+            <span>Casablanca, Morocco</span>
+        </div>
+    </div>
+
+    <!-- Hero Section with 3D Canvas -->
+    <section id="hero" class="section hero-section">
+        <canvas id="heroCanvas"></canvas>
+        <div class="hero-content">
+            <div class="hero-overline">Moroccan Oversized Essentials</div>
+            <h1 class="hero-title">
+                <span class="hero-title-line">LMAJHOL</span>
+            </h1>
+            <p class="hero-subtitle">Premium oversized t-shirts crafted in Casablanca. Black & white essentials for the modern wardrobe.</p>
+            <div class="hero-cta">
+                <a href="#collection" class="btn btn-primary">Explore Collection</a>
+                <a href="#order" class="btn btn-outline">Order Now</a>
+            </div>
+            <div class="hero-scroll-indicator">
+                <span>Scroll to explore</span>
+                <div class="scroll-line"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <span>OVERSIZED • PREMIUM COTTON • CASABLANCA • BLACK & WHITE • LMAJHOL • ESSENTIALS • OVERSIZED • PREMIUM COTTON • CASABLANCA • BLACK & WHITE • LMAJHOL • ESSENTIALS •</span>
+            <span>OVERSIZED • PREMIUM COTTON • CASABLANCA • BLACK & WHITE • LMAJHOL • ESSENTIALS • OVERSIZED • PREMIUM COTTON • CASABLANCA • BLACK & WHITE • LMAJHOL • ESSENTIALS •</span>
+        </div>
+    </div>
+
+    <!-- Collection Section -->
+    <section id="collection" class="section collection-section">
+        <div class="section-header">
+            <span class="section-number">01</span>
+            <h2 class="section-title">The Collection</h2>
+            <p class="section-desc">Two colors. One vision. Oversized perfection.</p>
+        </div>
+        <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <!-- 3D Showcase Section -->
+    <section id="showcase" class="section showcase-section">
+        <canvas id="showcaseCanvas"></canvas>
+        <div class="showcase-content">
+            <div class="showcase-text">
+                <span class="section-number">02</span>
+                <h2 class="showcase-title">Crafted in Casablanca</h2>
+                <p class="showcase-desc">Each piece is oversized by design — not by accident. Premium 220gsm cotton, pre-shrunk, garment-dyed in our Casablanca workshop.</p>
+                <div class="showcase-specs">
+                    <div class="spec">
+                        <span class="spec-value">220</span>
+                        <span class="spec-label">GSM Cotton</span>
+                    </div>
+                    <div class="spec">
+                        <span class="spec-value">100%</span>
+                        <span class="spec-label">Pre-Shrunk</span>
+                    </div>
+                    <div class="spec">
+                        <span class="spec-value">2×</span>
+                        <span class="spec-label">Oversized Fit</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about-section">
+        <div class="about-grid">
+            <div class="about-left">
+                <span class="section-number">03</span>
+                <h2 class="about-title">The Brand</h2>
+            </div>
+            <div class="about-right">
+                <p class="about-text">LMAJHOL started in Casablanca with a simple belief: you don't need 50 pieces to dress well. You need two — one black, one white — that fit perfectly.</p>
+                <p class="about-text">Our oversized t-shirts are cut from premium 220gsm cotton, garment-dyed for depth of color, and pre-shrunk so the fit you try on is the fit you keep.</p>
+                <p class="about-text">No logos. No graphics. Just fabric, cut, and proportion — done right.</p>
+                <div class="about-values">
+                    <div class="value"><span class="value-icon">◆</span><span>Essentials Only</span></div>
+                    <div class="value"><span class="value-icon">◆</span><span>Made in Morocco</span></div>
+                    <div class="value"><span class="value-icon">◆</span><span>Premium Quality</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section id="order" class="section order-section">
+        <div class="order-grid">
+            <div class="order-left">
+                <span class="section-number">04</span>
+                <h2 class="order-title">Place Your Order</h2>
+                <p class="order-desc">Cash on delivery. We'll confirm via WhatsApp or Telegram.</p>
+            </div>
+            <div class="order-right">
+                <form id="orderForm" class="order-form">
+                    <div class="form-group">
+                        <label for="productName">Product</label>
+                        <select id="productName" required></select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productSize">Size</label>
+                            <select id="productSize" required>
+                                <option value="">Select size</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                                <option value="XXL">XXL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <select id="quantity" required>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" required placeholder="Your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" required placeholder="+212 6XX XXX XXX">
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" required placeholder="Casablanca, Rabat, Marrakech...">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Delivery Address</label>
+                        <textarea id="address" required placeholder="Full delivery address"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Notes (optional)</label>
+                        <textarea id="notes" placeholder="Any special instructions..."></textarea>
+                    </div>
+                    <div class="order-summary" id="orderSummary">
+                        <div class="summary-line"><span>Product</span><span id="summaryProduct">—</span></div>
+                        <div class="summary-line"><span>Size</span><span id="summarySize">—</span></div>
+                        <div class="summary-line"><span>Quantity</span><span id="summaryQty">—</span></div>
+                        <div class="summary-total"><span>Total</span><span id="summaryTotal">— MAD</span></div>
+                        <div class="summary-payment"><span>Payment: Cash on Delivery</span></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full">Place Order</button>
+                </form>
+                <div id="orderSuccess" class="order-success" style="display:none;">
+                    <div class="success-icon">✓</div>
+                    <h3>Order Placed!</h3>
+                    <p>We'll contact you shortly to confirm your order.</p>
+                    <p class="success-note">Cash on delivery — pay when you receive your item.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="footer-logo">LMAJHOL</div>
+                <p>Moroccan Oversized Essentials</p>
+            </div>
+            <div class="footer-links">
+                <a href="#collection">Collection</a>
+                <a href="#about">About</a>
+                <a href="#order">Order</a>
+            </div>
+            <div class="footer-contact">
+                <p>Casablanca, Morocco</p>
+                <p>Pay on Delivery</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 LMAJHOL. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/three-scene.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/orders.js"></script>
+    <script src="js/main.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

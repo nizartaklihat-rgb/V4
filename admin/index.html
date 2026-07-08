@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMAJHOL — Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --black: #0a0a0a; --white: #fafafa; --gray-100: #f5f5f5; --gray-200: #e5e5e5; --gray-400: #a3a3a3; --gray-500: #737373; --gray-600: #525252; --gray-800: #262626; --accent: #c9a96e; --error: #ef4444; --font-sans: 'Inter', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background: var(--gray-100); color: var(--black); min-height: 100vh; }
+        .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--black); }
+        .login-box { background: var(--white); padding: 3rem; width: 100%; max-width: 400px; margin: 1rem; }
+        .login-logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.2em; text-align: center; margin-bottom: 0.5rem; }
+        .login-subtitle { font-size: 0.75rem; color: var(--gray-500); text-align: center; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray-600); margin-bottom: 0.5rem; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.85rem 1rem; font-family: var(--font-sans); font-size: 0.9rem; border: 1px solid var(--gray-200); outline: none; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--black); }
+        .login-btn { width: 100%; padding: 1rem; background: var(--black); color: var(--white); border: none; font-family: var(--font-sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; }
+        .login-error { color: var(--error); font-size: 0.8rem; margin-top: 1rem; display: none; }
+        .admin-panel { display: none; min-height: 100vh; }
+        .admin-header { background: var(--black); color: var(--white); padding: 1.5rem 3rem; display: flex; align-items: center; justify-content: space-between; }
+        .admin-logo { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.2em; }
+        .admin-nav { display: flex; gap: 2rem; }
+        .admin-nav-btn { background: none; border: none; color: var(--gray-400); font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 0.1em; cursor: pointer; padding: 0.5rem 0; }
+        .admin-nav-btn.active, .admin-nav-btn:hover { color: var(--white); }
+        .admin-logout { background: none; border: 1px solid var(--gray-600); color: var(--gray-400); padding: 0.5rem 1rem; font-family: var(--font-sans); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+        .admin-logout:hover { border-color: var(--white); color: var(--white); }
+        .admin-content { max-width: 1200px; margin: 0 auto; padding: 3rem; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+        .section-title { font-size: 1.5rem; font-weight: 300; }
+        .add-btn { background: var(--black); color: var(--white); border: none; padding: 0.75rem 1.5rem; font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        .product-card { background: var(--white); border: 1px solid var(--gray-200); overflow: hidden; }
+        .product-image { width: 100%; height: 200px; background: var(--gray-200); display: flex; align-items: center; justify-content: center; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; }
+        .product-placeholder { font-size: 4rem; font-weight: 200; color: var(--gray-400); }
+        .product-info { padding: 1.5rem; }
+        .product-name { font-size: 1rem; font-weight: 500; margin-bottom: 0.25rem; }
+        .product-details { font-size: 0.8rem; color: var(--gray-500); margin-bottom: 1rem; }
+        .product-actions { display: flex; gap: 0.5rem; }
+        .edit-btn, .delete-btn { flex: 1; padding: 0.5rem; font-family: var(--font-sans); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--gray-200); background: var(--white); cursor: pointer; }
+        .edit-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+        .delete-btn { color: var(--error); border-color: var(--error); }
+        .delete-btn:hover { background: var(--error); color: var(--white); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--white); width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; margin: 1rem; }
+        .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem; border-bottom: 1px solid var(--gray-200); }
+        .modal-title { font-size: 1.1rem; font-weight: 500; }
+        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--gray-500); }
+        .modal-body { padding: 1.5rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .modal-footer { padding: 1.5rem; border-top: 1px solid var(--gray-200); display: flex; gap: 1rem; }
+        .btn-cancel { flex: 1; padding: 0.75rem; background: var(--white); border: 1px solid var(--gray-200); font-family: var(--font-sans); font-size: 0.8rem; cursor: pointer; }
+        .btn-save { flex: 1; padding: 0.75rem; background: var(--black); color: var(--white); border: none; font-family: var(--font-sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+        .orders-table { width: 100%; background: var(--white); border: 1px solid var(--gray-200); border-collapse: collapse; }
+        .orders-table th, .orders-table td { padding: 1rem 1.5rem; text-align: left; border-bottom: 1px solid var(--gray-200); font-size: 0.85rem; }
+        .orders-table th { background: var(--gray-100); font-weight: 500; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-600); }
+        .settings-note { font-size: 0.8rem; color: var(--gray-500); margin-top: 0.5rem; }
+        @media (max-width: 768px) { .admin-header { flex-direction: column; gap: 1rem; padding: 1rem; } .admin-content { padding: 1.5rem; } .products-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div id="loginScreen" class="login-screen">
+        <div class="login-box">
+            <div class="login-logo">LMAJHOL</div>
+            <div class="login-subtitle">Admin Panel</div>
+            <form id="loginForm">
+                <div class="form-group"><label>Password</label><input type="password" id="adminPassword" placeholder="Enter admin password" required></div>
+                <button type="submit" class="login-btn">Login</button>
+                <div class="login-error" id="loginError">Incorrect password</div>
+            </form>
+        </div>
+    </div>
+    <div id="adminPanel" class="admin-panel">
+        <header class="admin-header">
+            <div class="admin-logo">LMAJHOL — Admin</div>
+            <nav class="admin-nav">
+                <button class="admin-nav-btn active" data-tab="products">Products</button>
+                <button class="admin-nav-btn" data-tab="orders">Orders</button>
+                <button class="admin-nav-btn" data-tab="settings">Settings</button>
+            </nav>
+            <button class="admin-logout" id="logoutBtn">Logout</button>
+        </header>
+        <main class="admin-content">
+            <div id="productsTab" class="tab-content active">
+                <div class="section-header"><h2 class="section-title">Products</h2><button class="add-btn" id="addProductBtn">+ Add Product</button></div>
+                <div class="products-grid" id="productsGrid"></div>
+            </div>
+            <div id="ordersTab" class="tab-content">
+                <div class="section-header"><h2 class="section-title">Orders</h2></div>
+                <div id="ordersContainer"></div>
+            </div>
+            <div id="settingsTab" class="tab-content">
+                <div class="section-header"><h2 class="section-title">Settings</h2></div>
+                <div class="settings-form" style="max-width:500px;">
+                    <div class="form-group"><label>Telegram Bot Token</label><input type="text" id="telegramToken" placeholder="Your bot token"><p class="settings-note">Get from @BotFather</p></div>
+                    <div class="form-group"><label>Telegram Chat ID</label><input type="text" id="telegramChatId" placeholder="Your chat ID"><p class="settings-note">Use @userinfobot</p></div>
+                    <div class="form-group"><label>Admin Password</label><input type="password" id="newPassword" placeholder="New password"></div>
+                    <button class="btn-save" id="saveSettingsBtn">Save Settings</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <div class="modal-overlay" id="productModal">
+        <div class="modal">
+            <div class="modal-header"><h3 class="modal-title" id="modalTitle">Add Product</h3><button class="modal-close" id="modalClose">&times;</button></div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <input type="hidden" id="productId">
+                    <div class="form-group"><label>Product Name</label><input type="text" id="productNameInput" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Color</label><select id="productColor"><option value="Black">Black</option><option value="White">White</option></select></div>
+                        <div class="form-group"><label>Price (MAD)</label><input type="number" id="productPrice" required></div>
+                    </div>
+                    <div class="form-group"><label>Badge (optional)</label><input type="text" id="productBadge" placeholder="e.g., New, Essential"></div>
+                    <div class="form-group"><label>Description</label><textarea id="productDescription" rows="3"></textarea></div>
+                    <div class="form-group"><label>Image URL</label><input type="text" id="productImage" placeholder="https://..."></div>
+                    <div class="form-group"><label>Or Upload Image</label><input type="file" id="imageUpload" accept="image/*"><div id="imagePreview" style="margin-top:0.5rem;"></div></div>
+                </form>
+            </div>
+            <div class="modal-footer"><button class="btn-cancel" id="modalCancel">Cancel</button><button class="btn-save" id="modalSave">Save Product</button></div>
+        </div>
+    </div>
+    <script>
+        const AdminPanel = {
+            password: 'lmajhol2026',
+            init() { this.checkAuth(); this.setupEvents(); },
+            checkAuth() { if (sessionStorage.getItem('lmajhol_admin') === 'true') this.showPanel(); },
+            login(pw) { if (pw === this.password) { sessionStorage.setItem('lmajhol_admin', 'true'); this.showPanel(); return true; } return false; },
+            logout() { sessionStorage.removeItem('lmajhol_admin'); document.getElementById('adminPanel').style.display = 'none'; document.getElementById('loginScreen').style.display = 'flex'; },
+            showPanel() { document.getElementById('loginScreen').style.display = 'none'; document.getElementById('adminPanel').style.display = 'block'; this.loadProducts(); this.loadOrders(); this.loadSettings(); },
+            setupEvents() {
+                document.getElementById('loginForm').addEventListener('submit', (e) => { e.preventDefault(); if (!this.login(document.getElementById('adminPassword').value)) document.getElementById('loginError').style.display = 'block'; });
+                document.getElementById('logoutBtn').addEventListener('click', () => this.logout());
+                document.querySelectorAll('.admin-nav-btn').forEach(btn => btn.addEventListener('click', () => this.switchTab(btn.dataset.tab)));
+                document.getElementById('addProductBtn').addEventListener('click', () => this.openModal());
+                document.getElementById('modalClose').addEventListener('click', () => this.closeModal());
+                document.getElementById('modalCancel').addEventListener('click', () => this.closeModal());
+                document.getElementById('modalSave').addEventListener('click', () => this.saveProduct());
+                document.getElementById('imageUpload').addEventListener('change', (e) => {
+                    const file = e.target.files[0]; if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (ev) => { document.getElementById('productImage').value = ev.target.result; document.getElementById('imagePreview').innerHTML = `<img src="${ev.target.result}" style="max-width:200px;max-height:100px;object-fit:contain;">`; };
+                    reader.readAsDataURL(file);
+                });
+                document.getElementById('saveSettingsBtn').addEventListener('click', () => this.saveSettings());
+            },
+            switchTab(tab) {
+                document.querySelectorAll('.admin-nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.toggle('active', c.id === tab + 'Tab'));
+            },
+            getProducts() { const s = localStorage.getItem('lmajhol_products'); if (s) { try { return JSON.parse(s); } catch(e) {} } return [{ id:'white-oversized-tee', name:'White Oversized T-Shirt', color:'White', price:149, badge:'Essential', description:'Premium 220gsm cotton', image:'', active:true },{ id:'black-oversized-tee', name:'Black Oversized T-Shirt', color:'Black', price:149, badge:'Essential', description:'Premium 220gsm cotton', image:'', active:true }]; },
+            saveProducts(p) { localStorage.setItem('lmajhol_products', JSON.stringify(p)); },
+            loadProducts() {
+                const grid = document.getElementById('productsGrid'); grid.innerHTML = '';
+                this.getProducts().forEach(p => {
+                    const card = document.createElement('div'); card.className = 'product-card';
+                    const img = p.image ? `<img src="${p.image}" alt="${p.name}">` : `<div class="product-placeholder">${p.color === 'Black' ? 'B' : 'W'}</div>`;
+                    card.innerHTML = `<div class="product-image" style="background:${p.color === 'Black' ? '#1a1a1a' : '#f0f0f0'}">${img}</div><div class="product-info"><div class="product-name">${p.name}</div><div class="product-details">${p.color} • ${p.price} MAD</div><div class="product-actions"><button class="edit-btn" onclick="AdminPanel.editProduct('${p.id}')">Edit</button><button class="delete-btn" onclick="AdminPanel.deleteProduct('${p.id}')">Delete</button></div></div>`;
+                    grid.appendChild(card);
+                });
+            },
+            openModal(product = null) {
+                document.getElementById('productModal').classList.add('active');
+                document.getElementById('modalTitle').textContent = product ? 'Edit Product' : 'Add Product';
+                if (product) { document.getElementById('productId').value = product.id; document.getElementById('productNameInput').value = product.name; document.getElementById('productColor').value = product.color; document.getElementById('productPrice').value = product.price; document.getElementById('productBadge').value = product.badge || ''; document.getElementById('productDescription').value = product.description || ''; document.getElementById('productImage').value = product.image || ''; }
+                else { document.getElementById('productForm').reset(); document.getElementById('productId').value = ''; document.getElementById('imagePreview').innerHTML = ''; }
+            },
+            closeModal() { document.getElementById('productModal').classList.remove('active'); },
+            saveProduct() {
+                const id = document.getElementById('productId').value;
+                const data = { id: id || 'product-' + Date.now(), name: document.getElementById('productNameInput').value, color: document.getElementById('productColor').value, price: parseInt(document.getElementById('productPrice').value), badge: document.getElementById('productBadge').value, description: document.getElementById('productDescription').value, image: document.getElementById('productImage').value, active: true };
+                let products = this.getProducts();
+                if (id) products = products.map(p => p.id === id ? { ...p, ...data } : p);
+                else products.push(data);
+                this.saveProducts(products); this.loadProducts(); this.closeModal();
+            },
+            editProduct(id) { const p = this.getProducts().find(x => x.id === id); if (p) this.openModal(p); },
+            deleteProduct(id) { if (confirm('Delete this product?')) { this.saveProducts(this.getProducts().filter(p => p.id !== id)); this.loadProducts(); } },
+            loadOrders() {
+                const orders = JSON.parse(localStorage.getItem('lmajhol_orders') || '[]');
+                const container = document.getElementById('ordersContainer');
+                if (!orders.length) { container.innerHTML = '<p style="color:var(--gray-500)">No orders yet.</p>'; return; }
+                let html = '<table class="orders-table"><thead><tr><th>Order ID</th><th>Product</th><th>Customer</th><th>City</th><th>Total</th></tr></thead><tbody>';
+                orders.forEach(o => { html += `<tr><td>${o.orderId}</td><td>${o.product} (${o.size})</td><td>${o.fullName}</td><td>${o.city}</td><td>${o.total} ${o.currency}</td></tr>`; });
+                html += '</tbody></table>'; container.innerHTML = html;
+            },
+            loadSettings() { document.getElementById('telegramToken').value = localStorage.getItem('lmajhol_telegram_token') || ''; document.getElementById('telegramChatId').value = localStorage.getItem('lmajhol_telegram_chatid') || ''; },
+            saveSettings() {
+                localStorage.setItem('lmajhol_telegram_token', document.getElementById('telegramToken').value);
+                localStorage.setItem('lmajhol_telegram_chatid', document.getElementById('telegramChatId').value);
+                if (document.getElementById('newPassword').value) { this.password = document.getElementById('newPassword').value; localStorage.setItem('lmajhol_admin_password', this.password); }
+                alert('Settings saved!');
+            }
+        };
+        document.addEventListener('DOMContentLoaded', () => AdminPanel.init());
+    </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
